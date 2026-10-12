@@ -1,0 +1,2 @@
+[env]
+SODIUM_LIB_DIR = "C:\\libsodium\\libsodium\\x64\\Release\\v143\\static"
