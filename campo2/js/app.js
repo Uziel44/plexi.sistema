@@ -351,8 +351,8 @@
     (SCREENS[name] || ((el) => moduleScreen(el, name)))(fresh); window.scrollTo(0, 0);
   }
   function buildShell() {
-    $('#app').innerHTML = `<div class="demo-bar"><span>ℹ️ <b>Demostración interactiva</b> de TPT Agriculture · los datos son de ejemplo y no se guardan</span><button data-reset>Reiniciar</button></div>
-      <div class="shell"><aside class="sidebar"><div class="brand"><span class="logo">🌾</span><div><b id="brand-name">${esc(P.S.farmName)}</b><span>TPT Agriculture</span></div></div><nav class="nav" id="nav"></nav><div class="userbox">Una sola granja, sin cuentas ni contraseñas.<br>Todo se guarda en este equipo.</div></aside>
+    $('#app').innerHTML = `<div class="demo-bar"><span>ℹ️ <b>Demostración interactiva</b> de Plexi Agriculture · los datos son de ejemplo y no se guardan</span><button data-reset>Reiniciar</button></div>
+      <div class="shell"><aside class="sidebar"><div class="brand"><span class="logo">🌾</span><div><b id="brand-name">${esc(P.S.farmName)}</b><span>Plexi Agriculture</span></div></div><nav class="nav" id="nav"></nav><div class="userbox">Una sola granja, sin cuentas ni contraseñas.<br>Todo se guarda en este equipo.</div></aside>
       <div class="main-col"><header class="topbar"><button class="btn btn-ghost btn-icon menu-btn" data-menu>${icon('menu')}</button><div class="search relative">${icon('search')}<input class="input" id="gs" placeholder="Buscar animales, parcelas, cultivos…" autocomplete="off"><div class="drop hidden" id="gres"></div></div><div class="grow"></div><div class="bell relative"><button class="btn btn-ghost btn-icon" data-bell>${icon('bell')}<span class="n" id="bn"></span></button><div class="drop hidden" id="bdrop"></div></div></header><main id="view"></main></div></div>`;
   }
 
@@ -376,14 +376,14 @@
   let chosen = 'mixta';
   function showSetup() {
     document.body.classList.remove('nav-open'); P.S = null; history.replaceState(null, '', location.pathname + location.search);
-    $('#app').innerHTML = `<div class="demo-bar"><span>ℹ️ <b>Demostración interactiva</b> de TPT Agriculture</span><span></span></div><div class="login"><div class="login-box"><h1>🌾 TPT AGRICULTURE</h1><div class="sub">Gestión de campo · funciona sin internet · Demostración interactiva</div>
+    $('#app').innerHTML = `<div class="demo-bar"><span>ℹ️ <b>Demostración interactiva</b> de Plexi Agriculture</span><span></span></div><div class="login"><div class="login-box"><h1>🌾 PLEXI AGRICULTURE</h1><div class="sub">Gestión de campo · funciona sin internet · Demostración interactiva</div>
       <div class="login-card stack"><div><label class="lbl" style="color:rgba(255,255,255,.75)">1. Nombre de la granja</label><input class="input" id="fname" value="Estancia Los Álamos"></div>
       <div><label class="lbl" style="color:rgba(255,255,255,.75)">2. ¿Qué producís?</label><div class="type-grid" id="types">${Object.entries(P.TYPES).map(([k, t]) => `<button class="type-opt ${k === chosen ? 'on' : ''}" data-type="${k}"><span class="e">${t.icon}</span>${t.label}</button>`).join('')}</div><div class="small" style="opacity:.6;margin-top:8px" id="thint">${esc(P.TYPES[chosen].demo)}</div></div>
       <button class="btn btn-accent btn-lg btn-block" data-create>Crear granja</button>
       <p class="small center" style="opacity:.5;margin:0">No hay usuarios ni contraseñas: es una sola granja en tu equipo. Los datos son de ejemplo y nada se guarda.</p></div></div></div>`;
   }
   function showPhrase() {
-    $('#app').innerHTML = `<div class="demo-bar"><span>ℹ️ <b>Demostración interactiva</b> de TPT Agriculture</span><span></span></div><div class="login"><div class="login-box"><h1>🔐 Tu frase de recuperación</h1><div class="sub">Con estas 12 palabras restaurás tus datos si cambiás de equipo</div>
+    $('#app').innerHTML = `<div class="demo-bar"><span>ℹ️ <b>Demostración interactiva</b> de Plexi Agriculture</span><span></span></div><div class="login"><div class="login-box"><h1>🔐 Tu frase de recuperación</h1><div class="sub">Con estas 12 palabras restaurás tus datos si cambiás de equipo</div>
       <div class="login-card stack"><div class="phrase">${P.S.phrase.map((w, i) => `<span><em>${i + 1}</em>${w}</span>`).join('')}</div><label class="switch" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)"><input type="checkbox" id="saved"> Ya la anoté en un lugar seguro</label><button class="btn btn-accent btn-lg btn-block" data-enter>Entrar a ${esc(P.S.farmName)}</button></div></div></div>`;
   }
   document.addEventListener('click', (e) => {

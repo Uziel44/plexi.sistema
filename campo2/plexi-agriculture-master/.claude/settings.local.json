@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Programming\\\\2 WIP\\\\plexi-agriculture\\\\apps\" -ErrorAction SilentlyContinue | Select-Object Name, @{Name=\"Type\";Expression={$_.PSIsContainer ? \"Dir\" : \"File\"}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Programming\\\\2 WIP\\\\plexi-agriculture\\\\packages\\\\modules\" -ErrorAction SilentlyContinue | Select-Object Name, @{Name=\"Type\";Expression={$_.PSIsContainer ? \"Dir\" : \"File\"}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Programming\\\\2 WIP\\\\plexi-agriculture\\\\packages\\\\core\" | Select-Object Name, @{Name=\"Type\";Expression={$_.PSIsContainer ? \"Dir\" : \"File\"}})",
+      "Bash(node verify4.js)"
+    ]
+  }
+}
