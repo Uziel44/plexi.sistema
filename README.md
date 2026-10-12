@@ -21,7 +21,7 @@ Una simulación del programa para mostrarlo a clientes: **HTML, CSS y JavaScript
 | --- | --- |
 | `rubro` | `general`, `almacen`, `ropa`, `ferreteria` |
 | `rol` | `admin`, `manager`, `cashier` |
-| `ir` | `dashboard`, `pos`, `sales`, `cash`, `products`, `inventory`, `customers`, `suppliers`, `employees`, `expenses`, `discounts`, `reports`, `logs`, `users`, `settings` |
+| `ir` | `dashboard`, `pos`, `sales`, `cash`, `products`, `inventory`, `customers`, `suppliers`, `employees`, `expenses`, `accounting`, `discounts`, `reports`, `logs`, `users`, `settings` |
 
 ## Qué se puede probar (todo simulado)
 
@@ -32,6 +32,7 @@ Una simulación del programa para mostrarlo a clientes: **HTML, CSS y JavaScript
 - **Caja**: abrir turno, retirar e ingresar efectivo, cerrar contando billetes (justa / sobra / falta), historial y conciliación.
 - **Productos e inventario**: alta y edición, etiquetas con QR, ajustes de stock con historial. El formulario **se adapta al tipo de comercio** (en *Configuración → Tipo de comercio*).
 - **Clientes, proveedores** (calendario de visitas, órdenes de compra, deudas), **empleados, gastos, descuentos, reportes, registro de actividad, usuarios y configuración**.
+- **Contabilidad** (administrador y gerente): estado de resultados y lo que se cobra y se debe; facturas con **notas de débito** (se suman a la cuenta corriente del cliente); **impuestos** con reglas propias y calculadora; **analítica** (rentabilidad por categoría y gastos por centro de costo); **cheques** a proveedores (bajan la deuda y se pueden imprimir) y **comprobantes electrónicos** simulados. No duplica nada: usa las ventas, gastos, clientes y proveedores que ya están cargados.
 
 ## Lo que NO es
 
@@ -47,7 +48,9 @@ js/core.js          ventanas, avisos, gráficos, recibo, WhatsApp y correo simul
 js/screens1.js      Panel, Punto de venta, Historial de ventas
 js/screens2.js      Productos, Inventario, Clientes, Proveedores
 js/screens3.js      Caja, Reportes, Empleados, Gastos, Descuentos, Registro, Usuarios, Configuración
+js/screens4.js      Contabilidad
 js/app.js           ingreso, menú y navegación
 js/icons.js         íconos (lucide, licencia ISC)
 assets/             logo de Plexi
+campo/contabilidad/ mapa de qué módulo de Odoo origina cada pestaña de Contabilidad (solo documentación)
 ```

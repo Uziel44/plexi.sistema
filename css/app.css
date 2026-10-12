@@ -266,6 +266,17 @@ main#view { padding: 24px; flex: 1; animation: fade .25s ease-out; }
 .kbd { font-family: ui-monospace, monospace; font-size: 11px; padding: 1px 6px; border-radius: 6px; background: rgba(18, 39, 29, .07); }
 .type-card { padding: 14px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; }
 
+/* ---------- contabilidad: cheque ---------- */
+.chq { border: 2px solid var(--brand); border-radius: var(--r); padding: 18px 22px; background: linear-gradient(135deg, #fffdf6, var(--gold-faint)); display: flex; flex-direction: column; gap: 14px; }
+.chq-h { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.chq-no { font-family: ui-monospace, monospace; font-weight: 600; color: var(--gold-dark); white-space: nowrap; }
+.chq-r { display: flex; flex-direction: column; gap: 2px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.chq-r span { font-size: 11px; color: rgba(18, 39, 29, .5); }
+.chq-f { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.chq-amt { font-size: 20px; font-weight: 700; border: 2px solid var(--brand); border-radius: 8px; padding: 4px 14px; background: #fff; }
+.chq-sign { width: 170px; text-align: center; font-size: 11px; color: rgba(18, 39, 29, .5); }
+.chq-sign i { display: block; border-bottom: 1px solid var(--ink); height: 26px; margin-bottom: 4px; }
+
 /* ---------- print: only the receipt ---------- */
 @media print {
   body * { visibility: hidden; }

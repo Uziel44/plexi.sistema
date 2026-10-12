@@ -6,7 +6,7 @@
   P.NAV = [
     ['dashboard', 'Panel', 'layout-grid', ALL], ['pos', 'Punto de venta', 'shopping-cart', ALL], ['sales', 'Historial de ventas', 'receipt-text', ALL], ['cash', 'Caja', 'landmark', ALL],
     ['products', 'Productos', 'package', ALL], ['inventory', 'Inventario', 'boxes', MGR], ['customers', 'Clientes', 'users', ALL], ['suppliers', 'Proveedores', 'truck', MGR],
-    ['employees', 'Empleados', 'id-card', MGR], ['expenses', 'Gastos', 'wallet', MGR], ['discounts', 'Descuentos', 'badge-percent', MGR], ['reports', 'Reportes', 'chart-column', MGR],
+    ['employees', 'Empleados', 'id-card', MGR], ['expenses', 'Gastos', 'wallet', MGR], ['accounting', 'Contabilidad', 'scale', MGR], ['discounts', 'Descuentos', 'badge-percent', MGR], ['reports', 'Reportes', 'chart-column', MGR],
     ['logs', 'Registro de actividad', 'history', MGR], ['users', 'Usuarios', 'shield-check', ['admin']], ['settings', 'Configuración', 'settings', ['admin']],
   ];
   const ROLE = { admin: 'Administrador', manager: 'Gerente', cashier: 'Cajero' };
