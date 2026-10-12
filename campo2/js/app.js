@@ -351,7 +351,7 @@
     (SCREENS[name] || ((el) => moduleScreen(el, name)))(fresh); window.scrollTo(0, 0);
   }
   function buildShell() {
-    $('#app').innerHTML = `<div class="demo-bar"><span>ℹ️ <b>Demostración interactiva</b> de Plexi Agriculture · los datos son de ejemplo y no se guardan</span><button data-reset>Reiniciar</button></div>
+    $('#app').innerHTML = `<div class="demo-bar"><span>ℹ️ <b>Demostración interactiva</b> de Plexi Agriculture<span class="hide-sm"> · los datos son de ejemplo y no se guardan</span></span><button data-reset>Reiniciar</button></div>
       <div class="shell"><aside class="sidebar"><div class="brand"><span class="logo">🌾</span><div><b id="brand-name">${esc(P.S.farmName)}</b><span>Plexi Agriculture</span></div></div><nav class="nav" id="nav"></nav><div class="userbox">Una sola granja, sin cuentas ni contraseñas.<br>Todo se guarda en este equipo.</div></aside>
       <div class="main-col"><header class="topbar"><button class="btn btn-ghost btn-icon menu-btn" data-menu>${icon('menu')}</button><div class="search relative">${icon('search')}<input class="input" id="gs" placeholder="Buscar animales, parcelas, cultivos…" autocomplete="off"><div class="drop hidden" id="gres"></div></div><div class="grow"></div><div class="bell relative"><button class="btn btn-ghost btn-icon" data-bell>${icon('bell')}<span class="n" id="bn"></span></button><div class="drop hidden" id="bdrop"></div></div></header><main id="view"></main></div></div>`;
   }

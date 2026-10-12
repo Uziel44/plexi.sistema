@@ -121,3 +121,4 @@ main { padding: 24px; flex: 1; } .menu-btn { display: none; }
   .sidebar { position: fixed; z-index: 40; left: -270px; top: 38px; transition: left .2s; } body.nav-open .sidebar { left: 0; } .menu-btn { display: inline-flex; }
   main { padding: 16px; } .topbar { padding: 10px 16px; } .g2 { grid-template-columns: 1fr; } .phrase { grid-template-columns: repeat(3, 1fr); } .cal .day { min-height: 64px; } .ev { font-size: 0; padding: 3px; }
 }
+@media (max-width: 520px) { .hide-sm { display: none; } }
