@@ -17,7 +17,9 @@
     bazar: { label: 'Bazar y hogar', demo: '', hint: 'Cada producto pide medida o capacidad, color y material.', fields: [{ key: 'size', label: 'Medida o capacidad', ph: 'Ej.: 24 cm, 500 ml' }, { key: 'color', label: 'Color', ph: 'Ej.: blanco' }, { key: 'material', label: 'Material', ph: 'Ej.: vidrio, acero' }], ex: 'Sartén antiadherente 24 cm', cats: { 'Cocina': ['Ollas y sartenes', 'Utensilios'], 'Mesa': ['Vasos', 'Platos'], 'Decoración': ['Velas', 'Macetas'], 'Textiles': ['Sábanas', 'Cortinas'] } },
     electronica: { label: 'Electrónica y tecnología', demo: '', hint: 'Cada producto pide modelo o capacidad y color.', fields: [{ key: 'size', label: 'Modelo o capacidad', ph: 'Ej.: 64 GB, modelo A12' }, { key: 'color', label: 'Color', ph: 'Ej.: negro' }], ex: 'Auriculares con cable', cats: { 'Celulares y accesorios': ['Fundas', 'Cargadores'], 'Audio': ['Auriculares', 'Parlantes'], 'Computación': ['Teclados y mouse', 'Cables'], 'Energía': ['Pilas', 'Zapatillas'] } },
   };
-  P.DEMO_TYPES = ['general', 'almacen', 'ropa', 'ferreteria'];
+  /* Fábrica: rubro con productos genéricos (A, B y C) para que cualquier industria se vea reflejada. Es el único rubro que muestra la pantalla Factory. */
+  P.TYPES.fabrica = { label: 'Fábrica', demo: 'Materias primas, insumos y productos terminados (A, B y C)', hint: 'Cada producto pide su unidad de medida: unidad, kg, metro, litro o caja.', fields: [{ key: 'size', label: 'Unidad de medida', options: ['Unidad', 'Kg', 'Metro', 'Litro', 'Caja'], def: 'Unidad' }], ex: 'Producto terminado A', cats: { 'Productos terminados': ['Línea A', 'Línea B'], 'Semielaborados': ['Conjuntos'], 'Materias primas': ['Sólidas', 'Líquidas'], 'Insumos': ['Embalaje', 'Consumibles'], 'Repuestos': ['Mecánicos'] } };
+  P.DEMO_TYPES = ['general', 'almacen', 'ropa', 'ferreteria', 'fabrica'];
 
   /* ---------- catálogos de la demostración: [categoría, subcategoría, nombre, marca, costo, atributos?] ---------- */
   const CATALOGS = {
@@ -112,6 +114,22 @@
       ['Electricidad', 'Cables', 'Cinta aisladora x3', 'Kalop', 1700, { size: '19 mm', material: 'PVC', color: 'Negro' }],
       ['Plomería', 'Caños', 'Codo PVC 110 mm', 'Tigre', 1400, { size: '110 mm', material: 'PVC', color: 'Blanco' }],
     ],
+    /* Fábrica: el stock y el mínimo van fijos (stock, min) para que las listas de materiales, la reposición y los lotes de Factory cuenten una historia coherente */
+    fabrica: [
+      ['Productos terminados', 'Línea A', 'Producto terminado A', 'Marca propia', 8200, { size: 'Unidad', stock: 48, min: 15 }],
+      ['Productos terminados', 'Línea A', 'Producto terminado B', 'Marca propia', 13500, { size: 'Unidad', stock: 22, min: 10 }],
+      ['Productos terminados', 'Línea B', 'Producto terminado C', 'Marca propia', 24800, { size: 'Unidad', stock: 9, min: 8 }],
+      ['Semielaborados', 'Conjuntos', 'Semielaborado 1', 'Marca propia', 3100, { size: 'Unidad', stock: 36, min: 12 }],
+      ['Materias primas', 'Sólidas', 'Materia prima 1', 'Genérica', 950, { size: 'Kg', stock: 420, min: 150 }],
+      ['Materias primas', 'Sólidas', 'Materia prima 2', 'Genérica', 1400, { size: 'Kg', stock: 180, min: 120 }],
+      ['Materias primas', 'Sólidas', 'Materia prima 3', 'Genérica', 620, { size: 'Metro', stock: 95, min: 100 }],
+      ['Materias primas', 'Líquidas', 'Materia prima 4', 'Genérica', 1800, { size: 'Litro', stock: 60, min: 30 }],
+      ['Insumos', 'Embalaje', 'Insumo 1', 'Genérica', 2300, { size: 'Caja', stock: 40, min: 20 }],
+      ['Insumos', 'Consumibles', 'Insumo 2', 'Genérica', 180, { size: 'Unidad', stock: 800, min: 300 }],
+      ['Insumos', 'Consumibles', 'Insumo 3', 'Genérica', 90, { size: 'Unidad', stock: 0, min: 200 }],
+      ['Repuestos', 'Mecánicos', 'Repuesto 1', 'Genérica', 5200, { size: 'Unidad', stock: 14, min: 4 }],
+      ['Repuestos', 'Mecánicos', 'Repuesto 2', 'Genérica', 9800, { size: 'Unidad', stock: 6, min: 3 }],
+    ],
   };
 
   const SUPPLIERS = {
@@ -119,6 +137,7 @@
     almacen: ['Distribuidora Norte', 'Bebidas del Sur', 'Lácteos Cuyo', 'Golosinas Express', 'Panificados Sur', 'Mayorista La Económica'],
     ropa: ['Textil Norte', 'Denim Directo', 'Sedas Argentinas', 'Indumentaria Express', 'Tejidos Maestros', 'Importadora Estilo'],
     ferreteria: ['Herramientas del Sur', 'Eléctrica Central', 'Pinturas Alba', 'Sanitarios Cuyo', 'Corralón Mayorista', 'Fijaciones Express'],
+    fabrica: ['Materias Primas Norte', 'Insumos Industriales', 'Repuestos del Centro', 'Importadora Técnica', 'Taller Externo A', 'Taller Externo B'],
   };
   const FIRST = ['Sofía', 'Mateo', 'Valentina', 'Santiago', 'Camila', 'Lucas', 'Martina', 'Facundo', 'Julieta', 'Nicolás', 'Lucía', 'Joaquín', 'Agustina', 'Tomás', 'Florencia', 'Franco'];
   const LAST = ['González', 'Rodríguez', 'Fernández', 'López', 'Martínez', 'Pérez', 'Gómez', 'Sánchez', 'Romero', 'Díaz'];
@@ -148,7 +167,7 @@
     const cats = [...new Set(catalog.map((r) => r[0]))];
     const S = {
       type, user: null, now: NOW,
-      settings: { storeName: 'Plexi', tagline: type === 'ropa' ? 'Tienda de moda' : 'Tu comercio de barrio', phone: '+54 11 4000-0000', email: 'hola@plexi.com.ar', address: 'Av. Corrientes 1234, Local 12, Buenos Aires', taxRate: 5, requireOpenRegister: false, pointsEnabled: true, pointsPerAmount: 100, pointsValue: 1, overdueDays: 15, waCountry: '54', receiptFooter: '¡Gracias por tu compra en Plexi!', returnPolicy: 'Los artículos se pueden cambiar dentro de los 14 días presentando el recibo original.', mpAlias: 'plexi.comercio', mpHolder: 'Plexi Comercio SRL', mpConnected: false, mailConnected: false, mailFrom: '' },
+      settings: { storeName: 'Plexi', tagline: type === 'ropa' ? 'Tienda de moda' : type === 'fabrica' ? 'Tu fábrica' : 'Tu comercio de barrio', phone: '+54 11 4000-0000', email: 'hola@plexi.com.ar', address: 'Av. Corrientes 1234, Local 12, Buenos Aires', taxRate: 5, requireOpenRegister: false, pointsEnabled: true, pointsPerAmount: 100, pointsValue: 1, overdueDays: 15, waCountry: '54', receiptFooter: '¡Gracias por tu compra en Plexi!', returnPolicy: 'Los artículos se pueden cambiar dentro de los 14 días presentando el recibo original.', mpAlias: 'plexi.comercio', mpHolder: 'Plexi Comercio SRL', mpConnected: false, mailConnected: false, mailFrom: '' },
       categories: Object.fromEntries(Object.entries(P.TYPES[type].cats).map(([k, v]) => [k, v.slice()])),
       products: [], customers: [], suppliers: [], sales: [], movements: [], cashSessions: [], held: [], orders: [], logs: [], notifications: [], expenses: [], employees: [], users: [], discounts: [], backups: [],
       cash: { open: false, openedAt: 0, float: 0, moves: [] }, seq: 1000,
@@ -164,13 +183,16 @@
     S.products = catalog.map((r, i) => {
       const [category, sub, name, brand, cost, attrs] = r;
       const price = Math.round((cost * (1.25 + R() * 0.45)) / 10) * 10;
-      const stock = i % 9 === 0 ? 0 : i % 5 === 0 ? rand(1, 9) : rand(15, 90);
+      const stock = attrs?.stock ?? (i % 9 === 0 ? 0 : i % 5 === 0 ? rand(1, 9) : rand(15, 90));
       const code = category.normalize('NFD').replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase();
       return {
         id: `p${i + 1}`, name, sku: `PLX-${code}-${rand(1000, 9999)}`, category, sub, brand, cost, price, discount: R() < 0.2 ? Math.round((price * 0.85) / 10) * 10 : null,
-        stock, min: 10, supplierId: pick(S.suppliers).id, size: attrs?.size || '', color: attrs?.color || '', gender: attrs?.gender || '', material: attrs?.material || '', archived: false, sold: 0, created: at(rand(30, 300), 10, 0),
+        stock, min: attrs?.min ?? 10, supplierId: pick(S.suppliers).id, size: attrs?.size || '', color: attrs?.color || '', gender: attrs?.gender || '', material: attrs?.material || '', archived: false, sold: 0, created: at(rand(30, 300), 10, 0),
       };
     });
+
+    /* Fábrica: cada tipo de producto lo provee su proveedor natural (los talleres externos solo hacen subcontratación) */
+    if (type === 'fabrica') { const BY_CAT = { 'Materias primas': 0, Insumos: 1, Repuestos: 2, Semielaborados: 3, 'Productos terminados': 3 }; S.products.forEach((p) => { p.supplierId = S.suppliers[BY_CAT[p.category] ?? 0].id; }); }
 
     const names = [];
     for (let i = 0; i < 16; i++) names.push(`${FIRST[i]} ${LAST[i % LAST.length]}`);

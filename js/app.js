@@ -6,10 +6,12 @@
   P.NAV = [
     ['dashboard', 'Panel', 'layout-grid', ALL], ['pos', 'Punto de venta', 'shopping-cart', ALL], ['sales', 'Historial de ventas', 'receipt-text', ALL], ['cash', 'Caja', 'landmark', ALL],
     ['products', 'Productos', 'package', ALL], ['inventory', 'Inventario', 'boxes', MGR], ['customers', 'Clientes', 'users', ALL], ['suppliers', 'Proveedores', 'truck', MGR],
-    ['employees', 'Empleados', 'id-card', MGR], ['expenses', 'Gastos', 'wallet', MGR], ['accounting', 'Contabilidad', 'scale', MGR], ['discounts', 'Descuentos', 'badge-percent', MGR], ['reports', 'Reportes', 'chart-column', MGR],
+    ['employees', 'Empleados', 'id-card', MGR], ['expenses', 'Gastos', 'wallet', MGR], ['accounting', 'Contabilidad', 'scale', MGR], ['factory', 'Factory', 'factory', MGR, ['fabrica']], ['discounts', 'Descuentos', 'badge-percent', MGR], ['reports', 'Reportes', 'chart-column', MGR],
     ['logs', 'Registro de actividad', 'history', MGR], ['users', 'Usuarios', 'shield-check', ['admin']], ['settings', 'Configuración', 'settings', ['admin']],
   ];
   const ROLE = { admin: 'Administrador', manager: 'Gerente', cashier: 'Cajero' };
+  /* un ítem del menú puede limitarse a ciertos rubros con un quinto dato: ['factory', 'Factory', 'factory', MGR, ['fabrica']] */
+  const allowed = (n, S) => n[3].includes(S.user.role) && (!n[4] || n[4].includes(S.type));
   const app = () => $('#app');
   let chosenType = 'general';
 
@@ -17,7 +19,7 @@
   P.showLogin = () => {
     document.body.classList.remove('nav-open'); P.S = null; history.replaceState(null, '', location.pathname + location.search.replace(/[?&]ir=[^&]*/, ''));
     app().innerHTML = `<div class="login"><div class="login-box"><div class="center"><img src="assets/logo-white.png" alt="Plexi" style="height:84px;margin-bottom:12px"></div><h1>PLEXI</h1><div class="sub">Punto de venta · Demostración interactiva</div>
-      <div class="login-card stack"><div><label class="lbl" style="color:rgba(255,255,255,.7)">1. Elegí el rubro de la demostración</label><div class="type-grid" id="types">${P.DEMO_TYPES.map((k) => `<button class="type-opt ${k === chosenType ? 'on' : ''}" data-type="${k}">${icon(k === 'ropa' ? 'tag' : k === 'ferreteria' ? 'wrench' : k === 'almacen' ? 'shopping-bag' : 'store')}<span>${esc(P.TYPES[k].label.split(',')[0].replace(' y calzado', ''))}</span></button>`).join('')}</div><div class="hint" style="color:rgba(255,255,255,.5)" id="typehint">${esc(P.TYPES[chosenType].demo)}</div></div>
+      <div class="login-card stack"><div><label class="lbl" style="color:rgba(255,255,255,.7)">1. Elegí el rubro de la demostración</label><div class="type-grid" id="types">${P.DEMO_TYPES.map((k) => `<button class="type-opt ${k === chosenType ? 'on' : ''}" data-type="${k}">${icon(k === 'ropa' ? 'tag' : k === 'ferreteria' ? 'wrench' : k === 'almacen' ? 'shopping-bag' : k === 'fabrica' ? 'factory' : 'store')}<span>${esc(P.TYPES[k].label.split(',')[0].replace(' y calzado', ''))}</span></button>`).join('')}</div><div class="hint" style="color:rgba(255,255,255,.5)" id="typehint">${esc(P.TYPES[chosenType].demo)}</div></div>
       <div><label class="lbl" style="color:rgba(255,255,255,.7)">2. Entrá como…</label><div class="demo-users"><button data-role="admin"><b>Administrador</b>ve todo</button><button data-role="manager"><b>Gerente</b>inventario y reportes</button><button data-role="cashier"><b>Cajero</b>solo el mostrador</button></div></div>
       <p class="small center" style="color:rgba(255,255,255,.45);margin:0">Todo es una simulación: los datos son de ejemplo y nada se guarda. Al recargar la página, vuelve a empezar.</p></div></div></div>`;
     P.on(app(), 'click', '[data-type]', (e, el) => { chosenType = el.dataset.type; $$('.type-opt').forEach((b) => b.classList.toggle('on', b === el)); $('#typehint').textContent = P.TYPES[chosenType].demo; });
@@ -38,7 +40,7 @@
   P.buildShell = () => {
     const S = P.S;
     app().innerHTML = `<div class="demo-bar"><span>${icon('info')} <b>Demostración interactiva</b> de Plexi POS · rubro: <b>${esc(P.TYPES[S.type].label)}</b> · los datos son de ejemplo y no se guardan</span><button data-switch>Cambiar rubro o usuario</button></div>
-    <div class="shell"><aside class="sidebar"><div class="brand"><img src="assets/logo-white.png" alt=""><div><b id="brand-name">${esc(S.settings.storeName)}</b><span>Punto de venta</span></div></div><nav class="nav" id="nav">${P.NAV.filter((n) => n[3].includes(S.user.role)).map(([k, l, ic]) => `<a data-nav="${k}" id="nav-${k}">${icon(ic)} ${l}</a>`).join('')}</nav><div class="userbox"><span class="avatar">${esc(P.initials(S.user.name))}</span><div class="grow"><b>${esc(S.user.name)}</b><span>${ROLE[S.user.role]}</span></div><button class="btn btn-ghost btn-icon" data-logout title="Cerrar sesión" style="color:#fff">${icon('log-out')}</button></div></aside>
+    <div class="shell"><aside class="sidebar"><div class="brand"><img src="assets/logo-white.png" alt=""><div><b id="brand-name">${esc(S.settings.storeName)}</b><span>Punto de venta</span></div></div><nav class="nav" id="nav">${P.NAV.filter((n) => allowed(n, S)).map(([k, l, ic]) => `<a data-nav="${k}" id="nav-${k}">${icon(ic)} ${l}</a>`).join('')}</nav><div class="userbox"><span class="avatar">${esc(P.initials(S.user.name))}</span><div class="grow"><b>${esc(S.user.name)}</b><span>${ROLE[S.user.role]}</span></div><button class="btn btn-ghost btn-icon" data-logout title="Cerrar sesión" style="color:#fff">${icon('log-out')}</button></div></aside>
     <div class="main-col"><header class="topbar"><button class="btn btn-ghost btn-icon menu-btn" data-menu>${icon('menu')}</button><div class="search">${icon('search')}<input class="input" id="gs" placeholder="Buscar productos, facturas, clientes…" autocomplete="off"><div class="results hidden" id="gres"></div></div><div class="grow"></div><div class="bell relative"><button class="btn btn-ghost btn-icon" data-bell>${icon('bell')}<span class="n" id="bn"></span></button><div class="drop hidden" id="bdrop"></div></div></header><main id="view"></main></div></div>`;
     const root = app();
     P.on(root, 'click', '[data-nav]', (e, el) => P.nav(el.dataset.nav));
@@ -56,7 +58,7 @@
       gres.innerHTML = sec('Productos', prods.map((p) => `<div class="it" data-go="products" data-q="${esc(p.sku)}"><span>${esc(p.name)}</span><span class="muted">${P.money(p.discount || p.price)}</span></div>`)) + sec('Ventas', sales.map((s) => `<div class="it" data-go="sales" data-q="${esc(s.no)}"><span>${esc(s.no)}</span><span class="muted">${esc(s.customerName)}</span></div>`)) + sec('Clientes', custs.map((c) => `<div class="it" data-go="customers" data-q="${esc(c.name)}"><span>${esc(c.name)}</span><span class="muted">${esc(c.phone)}</span></div>`)) || '<div class="empty">Sin resultados.</div>';
       gres.classList.remove('hidden');
     });
-    P.on(gres, 'click', '[data-go]', (e, el) => { gres.classList.add('hidden'); gs.value = ''; const go = el.dataset.go; const q = el.dataset.q; if (!P.NAV.find((n) => n[0] === go)[3].includes(S.user.role)) return P.toast('Tu rol no tiene acceso a esa pantalla.', 'warn'); P.nav(go); setTimeout(() => { const i = $('#q'); if (i) { i.value = q; i.dispatchEvent(new Event('input')); } }, 30); });
+    P.on(gres, 'click', '[data-go]', (e, el) => { gres.classList.add('hidden'); gs.value = ''; const go = el.dataset.go; const q = el.dataset.q; if (!allowed(P.NAV.find((n) => n[0] === go), S)) return P.toast('Tu rol no tiene acceso a esa pantalla.', 'warn'); P.nav(go); setTimeout(() => { const i = $('#q'); if (i) { i.value = q; i.dispatchEvent(new Event('input')); } }, 30); });
     document.addEventListener('click', (e) => { if (!e.target.closest('.search')) gres.classList.add('hidden'); if (!e.target.closest('.bell')) $('#bdrop')?.classList.add('hidden'); });
     /* campana */
     P.refreshBell = () => { const n = S.notifications.length; const el = $('#bn'); if (el) { el.textContent = n; el.style.display = n ? '' : 'none'; } };
@@ -70,7 +72,7 @@
   P.nav = (name) => {
     const S = P.S; if (!S) return;
     const item = P.NAV.find((n) => n[0] === name);
-    if (!item || !item[3].includes(S.user.role)) { P.toast('Tu rol no tiene acceso a esa pantalla.', 'warn'); name = 'dashboard'; }
+    if (!item || !allowed(item, S)) { P.toast('Tu rol no tiene acceso a esa pantalla.', 'warn'); name = 'dashboard'; }
     P.current = name; if (location.hash !== `#/${name}`) history.replaceState(null, '', `#/${name}`);
     $$('.nav a').forEach((a) => a.classList.toggle('on', a.dataset.nav === name));
     document.body.classList.remove('nav-open');
