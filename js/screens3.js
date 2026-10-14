@@ -1,4 +1,4 @@
-/* Pantallas: Caja, Reportes, Empleados, Gastos, Descuentos, Registro de actividad, Usuarios y Configuración. */
+/* Pantallas: Caja, Reportes, Empleados, Descuentos, Registro de actividad, Usuarios y Configuración. (Gastos pasó a ser una solapa de Costos, en screens7.js.) */
 (function () {
   const P = window.Plexi;
   const { esc, icon, money, $ } = P;
@@ -87,20 +87,6 @@
       draw();
       P.on(v, 'click', '[data-att]', (e, el) => { const [id, k] = el.dataset.att.split(':'); const emp = S.employees.find((x) => x.id === id); emp[k]++; P.log('ATTENDANCE_MARKED', `${emp.name}: ${k === 'present' ? 'presente' : 'ausente'}`, 'Empleados'); P.toast(`Asistencia registrada: ${emp.name}.`); draw(); });
       P.on(v, 'click', '[data-new]', () => { const m = P.modal({ title: 'Agregar empleado', body: `<div class="grid g2"><div class="field span2"><label>Nombre *</label><input class="input" id="en"></div><div class="field"><label>Rol</label><select class="input" id="er"><option>Cajero</option><option>Gerente</option></select></div><div class="field"><label>Sueldo mensual</label><input class="input" id="es" type="number" min="0" value="55000"></div><div class="field span2"><label>Teléfono</label><input class="input" id="ep"></div></div><div class="dialog-f"><button class="btn btn-outline" data-close>Cancelar</button><button class="btn btn-primary" data-ok>Guardar</button></div>` }); m.on('click', '[data-ok]', () => { const n = m.$('#en').value.trim(); if (n.length < 3) return P.toast('Escribí el nombre.', 'bad'); S.employees.push({ id: P.uid('emp'), name: n, role: m.$('#er').value, salary: +m.$('#es').value || 0, phone: m.$('#ep').value, present: 0, absent: 0, leave: 0 }); P.log('EMPLOYEE_CREATED', `Empleado agregado: ${n}`, 'Empleados'); P.toast('Empleado agregado.'); m.close(); draw(); }); });
-    },
-  };
-
-  P.screens.expenses = {
-    render(v) {
-      const S = P.S; const EXP = ['Electricidad', 'Alquiler', 'Internet', 'Sueldos', 'Mantenimiento', 'Transporte', 'Varios'];
-      const draw = () => {
-        const mo = new Date(); const from = new Date(mo.getFullYear(), mo.getMonth(), 1).getTime(); const list = S.expenses.slice().sort((a, b) => b.date - a.date);
-        v.innerHTML = `<div class="page">${P.page('Gastos', 'Anotá lo que gastás para ver cuánto se gana de verdad.', 'wallet', `<button class="btn btn-outline" data-csv>${icon('download')} CSV</button><button class="btn btn-primary" data-new>${icon('plus')} Agregar gasto</button>`)}<div class="grid g3 mb">${P.kpi('wallet', 'Gastos de este mes', money(S.expenses.filter((e) => e.date >= from).reduce((a, e) => a + e.amount, 0)), '', 'bad')}${P.kpi('receipt-text', 'Cantidad de gastos', S.expenses.length)}${P.kpi('trending-up', 'Promedio mensual', money(S.expenses.reduce((a, e) => a + e.amount, 0) / 3), 'últimos 3 meses', 'gold')}</div><div class="card">${P.table([{ h: 'Fecha', r: (e) => P.date(e.date) }, { h: 'Detalle', r: (e) => `<b>${esc(e.title)}</b>` }, { h: 'Categoría', r: (e) => `<span class="badge">${esc(e.category)}</span>` }, { h: 'Pago', r: (e) => P.PAY[e.method] }, { h: 'Importe', num: true, r: (e) => `<b>${money(e.amount)}</b>` }, { h: '', num: true, r: (e) => (P.hasRole('admin') ? `<button class="btn btn-ghost btn-icon" data-del="${e.id}" style="color:var(--bad)">${icon('trash-2')}</button>` : '') }], list.slice(0, 14))}</div></div>`;
-      };
-      draw();
-      P.on(v, 'click', '[data-csv]', () => { P.csv([['fecha', 'detalle', 'categoria', 'importe'], ...S.expenses.map((e) => [P.date(e.date), e.title, e.category, e.amount])], 'plexi-gastos.csv'); P.toast('Se descargó plexi-gastos.csv.'); });
-      P.on(v, 'click', '[data-del]', (e, el) => P.confirm('¿Eliminar el gasto?', 'Solo un administrador puede borrarlo.', 'Eliminar', () => { S.expenses = S.expenses.filter((x) => x.id !== el.dataset.del); P.toast('Gasto eliminado.'); draw(); }));
-      P.on(v, 'click', '[data-new]', () => { const m = P.modal({ title: 'Agregar gasto', size: 'narrow', body: `<div class="stack"><div class="field"><label>Detalle *</label><input class="input" id="gt" placeholder="Ej.: factura de la luz"></div><div class="field"><label>Categoría</label><select class="input" id="gc">${EXP.map((c) => `<option>${c}</option>`).join('')}</select></div><div class="field"><label>Importe *</label><input class="input" id="ga" type="number" min="1"></div><div class="field"><label>Medio de pago</label><select class="input" id="gm"><option value="cash">Efectivo</option><option value="transfer">Transferencia</option><option value="debit">Tarjeta de débito</option></select></div></div><div class="dialog-f"><button class="btn btn-outline" data-close>Cancelar</button><button class="btn btn-primary" data-ok>Guardar</button></div>` }); m.on('click', '[data-ok]', () => { const t = m.$('#gt').value.trim(); const a = +m.$('#ga').value; if (t.length < 3 || !(a > 0)) return P.toast('Completá el detalle y el importe.', 'bad'); S.expenses.push({ id: P.uid('e'), category: m.$('#gc').value, title: t, amount: a, date: Date.now(), method: m.$('#gm').value }); P.log('EXPENSE_CREATED', `Gasto registrado: ${t} (${money(a)})`, 'Gastos'); P.toast('Gasto registrado.'); m.close(); draw(); }); });
     },
   };
 

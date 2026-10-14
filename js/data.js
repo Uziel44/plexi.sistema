@@ -244,9 +244,15 @@
     S.sales = raw.reverse();
 
     /* gastos, empleados, usuarios, cupones */
-    const EXP = [['Electricidad', 28000], ['Alquiler', 150000], ['Internet', 9000], ['Sueldos', 280000], ['Mantenimiento', 12000], ['Transporte', 7500]];
+    /* los gastos y sueldos se escalan por rubro: un comercio de ropa o una ferretería venden mucho más que un almacén, así que los fijos pesan parecido sobre las ventas (cerca del 13 %) */
+    const SC = { general: 0.45, almacen: 0.28, ropa: 2, ferreteria: 1.7, fabrica: 0.7 }[type] || 1; const sc = (n, step = 500) => Math.round((n * SC) / step) * step;
+    const EXP = [['Electricidad', sc(28000)], ['Alquiler', sc(150000)], ['Internet', sc(9000)], ['Sueldos', sc(280000)], ['Mantenimiento', sc(12000)], ['Transporte', sc(7500)]];
     for (let m = 0; m < 3; m++) EXP.forEach(([cat, amt], k) => S.expenses.push({ id: `e${m}-${k}`, category: cat, title: `${cat} — mensual`, amount: Math.round(amt * (0.9 + R() * 0.2)), date: at(m * 30 + rand(1, 15), 12, 0), method: cat === 'Alquiler' ? 'transfer' : 'cash' }));
-    S.employees = [['María Gerente', 'Gerente', 112000], ['Carlos Cajero', 'Cajero', 56000], ['Julieta Díaz', 'Cajero', 54000], ['Bruno Sosa', 'Cajero', 52000], ['Lucía Paz', 'Gerente', 108000]].map(([name, role, salary], i) => ({ id: `emp${i + 1}`, name, role, salary, phone: `11 ${rand(4000, 7999)}-${rand(1000, 9999)}`, present: rand(20, 26), absent: rand(0, 3), leave: rand(0, 2) }));
+    /* gastos que suma la pantalla Costos (Publicidad, Contador, Seguros, Envíos y fletes); usan su propio generador para no mover el resto de los datos de ejemplo */
+    const R2 = rng(31415);
+    for (let m = 0; m < 3; m++) [['Publicidad', sc(20000)], ['Contador', sc(25000)], ['Seguros', sc(12000)], ['Envíos y fletes', sc(10000)]].forEach(([cat, amt], k) => S.expenses.push({ id: `x${m}-${k}`, category: cat, title: `${cat} — mensual`, amount: Math.round(amt * (0.9 + R2() * 0.2)), date: at(m * 30 + 1 + Math.floor(R2() * 15), 12, 0), method: cat === 'Contador' ? 'transfer' : 'cash' }));
+    /* los sueldos suman lo mismo que el gasto «Sueldos» (280 000), para que Empleados y Costos cuenten lo mismo */
+    S.employees = [['María Gerente', 'Gerente', 85000], ['Carlos Cajero', 'Cajero', 42000], ['Julieta Díaz', 'Cajero', 41000], ['Bruno Sosa', 'Cajero', 39000], ['Lucía Paz', 'Gerente', 73000]].map(([n, r, s]) => [n, r, sc(s, 1000)]).map(([name, role, salary], i) => ({ id: `emp${i + 1}`, name, role, salary, phone: `11 ${rand(4000, 7999)}-${rand(1000, 9999)}`, present: rand(20, 26), absent: rand(0, 3), leave: rand(0, 2) }));
     S.users = [{ id: 'u1', email: 'admin@demo.com', name: 'Admin Demo', role: 'admin', status: 'Activo' }, { id: 'u2', email: 'gerente@demo.com', name: 'María Gerente', role: 'manager', status: 'Activo' }, { id: 'u3', email: 'cajero@demo.com', name: 'Carlos Cajero', role: 'cashier', status: 'Activo' }];
     const topCat = cats[1] || cats[0];
     S.discounts = [

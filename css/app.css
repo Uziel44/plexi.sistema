@@ -280,6 +280,8 @@ main#view { padding: 24px; flex: 1; animation: fade .25s ease-out; }
 
 /* ---------- factory: tablero de mantenimiento, reparaciones y códigos de barras ---------- */
 .tabs.wrap { flex-wrap: wrap; overflow-x: visible; }
+.g21 { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); }
+@media (max-width: 1100px) { .g21 { grid-template-columns: minmax(0, 1fr); } }
 .kan { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: start; }
 .kan-col { background: rgba(18, 39, 29, .04); border-radius: var(--r2); padding: 12px; display: flex; flex-direction: column; gap: 10px; min-height: 120px; }
 .kan-col > h4 { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(18, 39, 29, .55); display: flex; justify-content: space-between; }

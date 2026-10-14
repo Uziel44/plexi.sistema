@@ -6,7 +6,7 @@
   P.NAV = [
     ['dashboard', 'Panel', 'layout-grid', ALL], ['pos', 'Punto de venta', 'shopping-cart', ALL], ['sales', 'Historial de ventas', 'receipt-text', ALL], ['cash', 'Caja', 'landmark', ALL],
     ['products', 'Productos', 'package', ALL], ['inventory', 'Inventario', 'boxes', MGR], ['customers', 'Clientes', 'users', ALL], ['suppliers', 'Proveedores', 'truck', MGR],
-    ['employees', 'Empleados', 'id-card', MGR], ['expenses', 'Gastos', 'wallet', MGR], ['accounting', 'Contabilidad', 'scale', MGR], ['factory', 'Factory', 'factory', MGR, ['fabrica']], ['discounts', 'Descuentos', 'badge-percent', MGR], ['reports', 'Reportes', 'chart-column', MGR],
+    ['employees', 'Empleados', 'id-card', MGR], ['costs', 'Costos', 'wallet', MGR], ['accounting', 'Contabilidad', 'scale', MGR], ['factory', 'Factory', 'factory', MGR, ['fabrica']], ['discounts', 'Descuentos', 'badge-percent', MGR], ['reports', 'Reportes', 'chart-column', MGR],
     ['logs', 'Registro de actividad', 'history', MGR], ['users', 'Usuarios', 'shield-check', ['admin']], ['settings', 'Configuración', 'settings', ['admin']],
   ];
   const ROLE = { admin: 'Administrador', manager: 'Gerente', cashier: 'Cajero' };
@@ -69,8 +69,9 @@
   };
 
   /* ---------- navegación ---------- */
+  const ALIAS = { expenses: 'costs' }; // Gastos pasó a ser una solapa de Costos: los enlaces viejos con ir=expenses siguen andando
   P.nav = (name) => {
-    const S = P.S; if (!S) return;
+    const S = P.S; if (!S) return; name = ALIAS[name] || name;
     const item = P.NAV.find((n) => n[0] === name);
     if (!item || !allowed(item, S)) { P.toast('Tu rol no tiene acceso a esa pantalla.', 'warn'); name = 'dashboard'; }
     P.current = name; if (location.hash !== `#/${name}`) history.replaceState(null, '', `#/${name}`);

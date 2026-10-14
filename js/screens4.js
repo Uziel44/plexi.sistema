@@ -40,7 +40,7 @@
   const sum = (list, f) => list.reduce((a, x) => a + f(x), 0);
 
   const CENTERS = ['Local', 'Depósito', 'Administración'];
-  const CENTER_OF = { Alquiler: 'Local', Electricidad: 'Local', Mantenimiento: 'Depósito', Transporte: 'Depósito', Internet: 'Administración', Sueldos: 'Administración' };
+  const CENTER_OF = { Alquiler: 'Local', Electricidad: 'Local', Mantenimiento: 'Depósito', Transporte: 'Depósito', Internet: 'Administración', Sueldos: 'Administración', Publicidad: 'Administración', Contador: 'Administración', Seguros: 'Administración', 'Envíos y fletes': 'Depósito' };
   const REASONS = ['Intereses por mora', 'Gastos de envío no facturados', 'Ajuste de precio', 'Diferencia de cambio', 'Otro motivo'];
   const KINDS = { pct: 'Porcentaje de la base', excess: 'Porcentaje sobre el excedente de un mínimo', flat: 'Importe fijo por comprobante' };
 

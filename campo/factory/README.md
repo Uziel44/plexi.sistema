@@ -17,7 +17,7 @@ Un comercio no fabrica, así que producción, subcontratación, mantenimiento y 
 | Stock, stock mínimo y movimientos | **Inventario** (niveles, ajustes e historial) | El stock total de cada producto es el de Inventario. Cuando Factory consume, fabrica o recibe mercadería, deja el movimiento ahí. |
 | Costo y precio de cada producto | **Productos** | La valuación multiplica el stock por el costo. Producir, subcontratar o revalorizar actualizan ese costo. |
 | Proveedores, órdenes de compra y deudas | **Proveedores** | Reposición crea órdenes de compra ahí. Los talleres externos son proveedores y su servicio queda como deuda. |
-| Gastos | **Gastos** | Un mantenimiento terminado deja un gasto de la categoría «Mantenimiento» (que Contabilidad ya asigna al centro de costo Depósito). |
+| Gastos | **Costos → Gastos** | Un mantenimiento terminado deja un gasto de la categoría «Mantenimiento», del área Operación (Contabilidad ya lo asigna al centro de costo Depósito). |
 | Clientes y cuenta corriente | **Clientes** | Una reparación facturada se carga a la cuenta del cliente; los envíos salen de las ventas con cliente. |
 | Etiquetas con QR | **Productos** | Factory suma las etiquetas con código de barras EAN-13, no las reemplaza. |
 
@@ -45,7 +45,7 @@ Un comercio no fabrica, así que producción, subcontratación, mantenimiento y 
 | Subcontratación | `mrp_subcontracting_dropshipping` | Opción de que el proveedor entregue los componentes directo al taller, sin tocar tus depósitos. |
 | Subcontratación | `mrp_subcontracting_landed_costs` | Costos adicionales (fletes al taller) sobre cada orden. |
 | Mantenimiento | `maintenance` | Equipos con su frecuencia de mantenimiento y solicitudes preventivas y correctivas en un tablero (nuevas, en curso y hechas); al terminar un preventivo se programa el siguiente. |
-| Mantenimiento | `stock_maintenance` | Los repuestos usados salen del stock de Inventario y quedan en Movimientos; el costo (horas y repuestos) va a Gastos. |
+| Mantenimiento | `stock_maintenance` | Los repuestos usados salen del stock de Inventario y quedan en Movimientos; el costo (horas y repuestos) va a Costos → Gastos. |
 | Reparaciones | `repair` | Presupuesto, aprobación, reparación y factura; en garantía no se cobra; al terminar salen los repuestos del stock y al facturar se carga a la cuenta del cliente. |
 | Reparaciones | `mrp_repair` | Al reparar un producto fabricado se sugieren los repuestos desde su lista de materiales. |
 
